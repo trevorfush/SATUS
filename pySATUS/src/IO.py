@@ -26,4 +26,6 @@ def WriteData(fname, simmesh, photonarr):
 
     # Group for photon data? 
 
+    h5file.close()
+
 
