@@ -56,7 +56,7 @@ class Mesh:
     def FillMesh(self, ) -> None:
         return
 
-    def SnapToMesh(self, photonPos) -> None:
+    def SnapToMesh(self, photons) -> None:
         """
         Snaps photon positions to binned positions on simulation grid.
 
@@ -64,26 +64,18 @@ class Mesh:
         with an x1 position as the first index and the second element 
         being an x2 position
         """
-        for i in range(len(photonPos)):
+        for i in range(len(photons)):
 
-            phot_x1 = photonPos[i][0]
-            phot_x2 = photonPos[i][1]
+            phot_x1 = photons[i].x1
+            phot_x2 = photons[i].x2
 
             ind_x1  = (phot_x1 - self.x1min) / self.dx1
             ind_x2  = (phot_x2 - self.x2min) / self.dx2
 
             self.mesh[4, ind_x1, ind_x2] += 1.0
 
+            photons[i].indx1 = ind_x1
+            photons[i].indx2 = ind_x2
+
+
         return 
-
-    def getMeshIndLoc(self, singlePos):
-        """
-        Get single indexed location values
-        """
-        phot_x1 = singlePos[0]
-        phot_x2 = singlePos[1]
-
-        ind_x1  = (phot_x1 - self.x1min) / self.dx1
-        ind_x2  = (phot_x2 - self.x2min) / self.dx2
-
-        return [ind_x1, ind_x2]
