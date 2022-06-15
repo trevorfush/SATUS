@@ -17,12 +17,20 @@ def WriteData(fname, simmesh, photonarr):
     abscoef[:,:] = simmesh.mesh[1,:,:]
 
     # Anisotropy Coeff data
-    aniscoef = h5group.create_dataset("AnisoCoeff", simmesh.mesh[3,:,:].shape, type(simmesh.mesh[3,0,0]))
-    aniscoef[:,:] = simmesh.mesh[3,:,:]
+    aniscoef = h5group.create_dataset("AnisoCoeff", simmesh.mesh[2,:,:].shape, type(simmesh.mesh[2,0,0]))
+    aniscoef[:,:] = simmesh.mesh[2,:,:]
 
     # Photon count data
-    photcount = h5group.create_dataset("PhotCnt", simmesh.mesh[4,:,:].shape, type(simmesh.mesh[4,0,0]))
-    photcount[:,:] = np.rot90(simmesh.mesh[4,:,:])
+    photcount = h5group.create_dataset("PhotCnt", simmesh.mesh[3,:,:].shape, type(simmesh.mesh[3,0,0]))
+    photcount[:,:] = np.rot90(simmesh.mesh[3,:,:])
+
+    # x1 array
+    x1arr = h5group.create_dataset("x1", simmesh.x1[:].shape, type(simmesh.x1[0]))
+    x1arr[:] = simmesh.x1[:]
+
+    # x2 array
+    x2arr = h5group.create_dataset("x2", simmesh.x2[:].shape, type(simmesh.x2[0]))
+    x2arr[:] = simmesh.x2[:]
 
     # Group for photon data? 
 

@@ -1,4 +1,6 @@
 import numpy as np
+import sys
+sys.path.append("..")
 
 class Mesh:
     """
@@ -53,9 +55,6 @@ class Mesh:
         self.x1   = np.linspace(x1min, x1max, nx1)
         self.x2   = np.linspace(x2min, x2max, nx2)
 
-    def FillMesh(self, ) -> None:
-        return
-
     def SnapToMesh(self, photons) -> None:
         """
         Snaps photon positions to binned positions on simulation grid.
@@ -66,16 +65,39 @@ class Mesh:
         """
         for i in range(len(photons)):
 
-            phot_x1 = photons[i].x1
-            phot_x2 = photons[i].x2
+            if photons[i].alive == True:
 
-            ind_x1  = (phot_x1 - self.x1min) / self.dx1
-            ind_x2  = (phot_x2 - self.x2min) / self.dx2
+                phot_x1 = photons[i].x1
+                phot_x2 = photons[i].x2
 
-            self.mesh[4, ind_x1, ind_x2] += 1.0
+                ind_x1  = int((phot_x1 - self.x1min) / self.dx1)
+                ind_x2  = int((phot_x2 - self.x2min) / self.dx2)
 
-            photons[i].indx1 = ind_x1
-            photons[i].indx2 = ind_x2
+                # if (ind_x1 > self.nx1-1):
+                #     ind_x1 = self.nx1-1
+                #     photons[i].x1 = self.x1max
+                #     photons[i].phi = np.random.random()*2*np.pi
+                # if (ind_x2 > self.nx2-1):
+                #     ind_x2 = self.nx2-1
+                #     photons[i].x2 = self.x2max
+                #     photons[i].phi = np.random.random()*2*np.pi
+                # if (ind_x1 < 0):
+                #     ind_x1 = 0
+                #     photons[i].x1 = self.x1min
+                #     photons[i].phi = np.random.random()*2*np.pi
+                # if (ind_x2 < 0):
+                #     ind_x2 = 0
+                #     photons[i].x2 = self.x2min
+                #     photons[i].phi = np.random.random()*2*np.pi
 
+                if (ind_x1 > self.nx1-1) or (ind_x2 > self.nx2-1) or (ind_x1 < 0) or (ind_x2 < 0):
+                    photons[i].alive=False
+                else:
+                    self.mesh[3, ind_x1, ind_x2] += 1.0
 
+                    photons[i].indx1 = ind_x1
+                    photons[i].indx2 = ind_x2
         return 
+
+    def getSingleMeshLoc(self, x1, x2):
+        return [(x1 - self.x1min) / self.dx1, (x2 - self.x2min) / self.dx2]

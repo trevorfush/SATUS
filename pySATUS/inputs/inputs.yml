@@ -1,0 +1,26 @@
+# Need to fill this in
+
+# Test name
+initialtest:
+  # Restating problem name for purposes
+  problem: initialtest
+
+  # Grid dimensions
+  nx1: 200
+  nx2: 200
+  
+  # Grid scale
+  x1min: -5 # mm
+  x1max: 5  # mm
+  x2min: -5 # mm
+  x2max: 5  # mm
+
+  # Time info
+  maxiter: 200
+  pulselength: 100
+
+  # Photon info
+  Nphotons: 5000
+  dr: 0.08 # mm --> 80 um
+  w0: 2.5  # mm
+

@@ -29,21 +29,22 @@ class Photon:
         self.indx1 = indx1
         self.indx2 = indx2
 
+        self.alive = True
+
     def probAbsorb(self, abs_coef_ij):
-        return np.exp(-abs_coef_ij * self.dr)
+        return (1-np.exp(-abs_coef_ij * self.dr))
 
     def probScatter(self, sct_coef_ij):
-        return (1 - np.exp(-sct_coef_ij * self.dr))
+        return (1-np.exp(-sct_coef_ij * self.dr))
 
     def getNewDir(self, scatter, g_ij) -> None:
         # Scatter is bool, True or False
         if scatter == True:
-            s1 = np.random.random()
             s2 = np.random.uniform(-1.0,1.0)
-            self.phi += (1 - s1) * s2 * np.cos(g_ij)
+            self.phi += s2 * np.cos(g_ij)
         elif scatter == False:
             self.phi = self.phi
 
     def Move(self) -> None:
         self.x1 += self.dr * np.cos(self.phi)
-        self.x2 += self.dr * np.cos(self.phi)
+        self.x2 += self.dr * np.sin(self.phi)
