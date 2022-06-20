@@ -1,4 +1,4 @@
-# SATUS - The Origin Code
+# SATUS - The Origin
 ## Simulating Absorption in Tissues Using Statistics (SATUS) for BLOCH Quantum Imaging Solutions
 
 
