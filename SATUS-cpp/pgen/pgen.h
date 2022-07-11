@@ -84,7 +84,7 @@ void testProblemGen(Mesh &simmesh, std::vector< Photon > &photons,
 
 }
 
-void ProblemGen(Mesh &simmesh, std::vector< Photon > &photons, 
+void ProblemGen(Mesh &simmesh, std::vector<std::vector< Photon > > &photons, 
                 int Nphotons, double dr, double w0, int num_vessels) 
 {
     std::mt19937 m_gen;
@@ -147,7 +147,7 @@ void ProblemGen(Mesh &simmesh, std::vector< Photon > &photons,
         double phi0 = M_PI / 2.0;
         ind ind0 = simmesh.getSingMeshLoc(x10, x20);
 
-        photons.push_back(Photon(x10, x20, ind0.indx1, ind0.indx2, phi0, dr));
+        photons[0][i].resetPhotonParams(x10, x20, ind0.indx1, ind0.indx2, phi0, dr);
     }
 }
 

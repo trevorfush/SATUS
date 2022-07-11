@@ -33,7 +33,7 @@ public:
 
     // Methods
     Mesh(int i_nx1, int i_nx2, double i_x1min, double i_x1max, double i_x2min, double i_x2max);
-    void SnapToMesh(std::vector< Photon > &photons);
+    void SnapToMesh(int current_iter, std::vector< std::vector< Photon > > &photons);
     ind  getSingMeshLoc(double x1, double x2);
     void clearPhotonCounts();
 
@@ -64,35 +64,42 @@ Mesh::Mesh(int i_nx1, int i_nx2, double i_x1min, double i_x1max, double i_x2min,
 
 }
 
-void Mesh::SnapToMesh(std::vector< Photon > &photons) {
+void Mesh::SnapToMesh(int current_iter, std::vector< std::vector< Photon > > &photons) {
 
     double phot_x1, phot_x2;
     int ind_x1, ind_x2;
 
-    for (int i=0; i<photons.size(); ++i) {
-        bool isalive = photons[i].isAlive();
-        if (isalive == true) {
-            pos photonpos = photons[i].getPhotonPos();
+    for (int level=0; level<current_iter; ++level) {
+        
+        if (level < photons.size()) {
 
-            phot_x1 = photonpos.x1;
-            phot_x2 = photonpos.x2;
+            for (int i=0; i<photons[level].size(); ++i) {
+                bool isalive = photons[level][i].isAlive();
+                if (isalive == true) {
+                    pos photonpos = photons[level][i].getPhotonPos();
 
-            ind_x1  = int((phot_x1 - x1min) / dx1);
-            ind_x2  = int((phot_x2 - x2min) / dx2);
+                    phot_x1 = photonpos.x1;
+                    phot_x2 = photonpos.x2;
 
-            if (ind_x1 > nx1-1 || ind_x1 < 0 || ind_x2 > nx2-1 || ind_x2 < 0) {
-                photons[i].setAlive(false);
-            } else {
-                mesh[ind_x2][ind_x1].phot_count += 1;
+                    ind_x1  = int((phot_x1 - x1min) / dx1);
+                    ind_x2  = int((phot_x2 - x2min) / dx2);
 
-                ind new_ind;
-                new_ind.indx1 = ind_x1;
-                new_ind.indx2 = ind_x2;
+                    if (ind_x1 > nx1-1 || ind_x1 < 0 || ind_x2 > nx2-1 || ind_x2 < 0) {
+                        photons[level][i].setAlive(false);
+                    } else {
+                        mesh[ind_x2][ind_x1].phot_count += 1;
 
-                photons[i].setIndex(new_ind);
+                        ind new_ind;
+                        new_ind.indx1 = ind_x1;
+                        new_ind.indx2 = ind_x2;
+
+                        photons[level][i].setIndex(new_ind);
+                    }
+                } 
             }
 
-        } 
+        }
+
     }
 
 }

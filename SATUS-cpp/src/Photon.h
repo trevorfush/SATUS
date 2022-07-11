@@ -32,6 +32,7 @@ public:
     // Changing private info
     void setAlive(bool isalive);
     void setIndex(ind new_ind);
+    void resetPhotonParams(double x10, double x20, int indx1, int indx2, double phi0, double dr);
 
 private:
     double m_x1;
@@ -116,6 +117,21 @@ ind Photon::getIndexPos() {
 
 bool Photon::isAlive() {
     return alive;
+}
+
+void Photon::resetPhotonParams(double x10, double x20, int indx1, int indx2, double phi0, double dr) {
+
+    m_x1 = x10;
+    m_x2 = x20;
+
+    m_indx1 = indx1;
+    m_indx2 = indx2;
+
+    m_phi = phi0;
+    m_dr = dr;
+
+    alive = true;
+
 }
 
 #endif // PHOTON_HPP_
